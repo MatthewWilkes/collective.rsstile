@@ -1,0 +1,19 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="collective.cover">
+
+<body tal:define="toLocalizedTime nocall:context/@@plone/toLocalizedTime">
+
+  <div talclass="cover-basic-tile tile-content tile-rss">
+    
+    <tal:stories repeat="item view/get_items">
+
+         <h4 tal:content="item/title" />
+
+    </tal:stories>
+    
+  </div>
+</body>
+</html>

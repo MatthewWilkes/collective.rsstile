@@ -1,0 +1,31 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:grok="http://namespaces.zope.org/grok"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="collective.rsstile"
+    >
+
+    <plone:tile
+        name="collective.rsstile"
+        title="RSS Tile"
+        description="A tile containing RSS feeds"
+        add_permission="cmf.ModifyPortalContent"
+        schema=".tile.IRSSTileData"
+        class=".tile.RSSTile"
+        icon="++resource++collective.cover/tile-contentbody.png"
+        permission="zope2.View"
+        for="*"
+        />
+       
+    <genericsetup:registerProfile
+        name="default"
+        title="collective.rsstile"
+        directory="profiles/default"
+        description="RSS Tiles."
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+
+</configure>
