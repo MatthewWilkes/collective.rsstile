@@ -102,7 +102,14 @@ class RSSTile(PersistentCoverTile):
         
         
         transformer = getToolByName(self.context, 'portal_transforms', None)
-        convert = lambda text: unicode(transformer.convertTo("text/plain", text, mimetype="text/html")) or text
+        def convert(text):
+            try:
+                result = unicode(transformer.convertTo("text/plain", text, mimetype="text/html"))
+            except:
+                result = None
+            if result is None:
+                result = text
+            return result
                                 
         items = []
         for feed in self.get_feeds():
