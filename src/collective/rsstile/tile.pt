@@ -6,12 +6,27 @@
 
 <body tal:define="toLocalizedTime nocall:context/@@plone/toLocalizedTime">
 
-  <div talclass="cover-basic-tile tile-content tile-rss">
-    
+  <div talclass="cover-rss-tile tile-content">
+
+    <h3>Latest news</h3>
+                            
     <tal:stories repeat="item view/get_items">
 
-         <h4 tal:content="item/title" />
-
+        <div class="cover-richtext-tile tile-content">
+        
+            <h4>
+                <a class="external-link" href="http://www.example.com"
+                    tal:attributes="href item/url">
+                    <img height="16"
+                         src="++resource++collective.rsstile/feed-icon.png" />&nbsp;
+                    <span tal:content="item/title">Crisis in Syria</span>
+                </a> 
+                <span class="discreet" tal:content="python:view.fmt(item['updated'])">2014-04-29</span>
+            </h4>
+            <p tal:content="item/summary">More than 2.5 million people have now fled violence in Syria and are in desperate need of shelter</p>
+            
+        </div>
+        
     </tal:stories>
     
   </div>
