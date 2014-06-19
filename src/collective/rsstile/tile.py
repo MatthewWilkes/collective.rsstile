@@ -67,7 +67,7 @@ class RSSTile(PersistentCoverTile):
             # No whitelist implies a match
             return True
         
-        text = item.get('title', '') + " " + item.get('summary', '')
+        text = item.get('title', ' ') + " " + item.get('summary', ' ')
         text = text.lower()
         for word in self.data['whitelist']:
             word = word.lower()
@@ -80,7 +80,7 @@ class RSSTile(PersistentCoverTile):
             # No blacklist implies acceptability
             return True
         
-        text = item.get('title', '') + " " + item.get('summary', '')
+        text = item.get('title', ' ') + " " + item.get('summary', ' ')
         text = text.lower()
         for word in self.data['blacklist']:
             word = word.lower()
@@ -104,11 +104,14 @@ class RSSTile(PersistentCoverTile):
         transformer = getToolByName(self.context, 'portal_transforms', None)
         def convert(text):
             try:
-                result = unicode(transformer.convertTo("text/plain", text, mimetype="text/html"))
+                result = transformer.convertTo("text/plain", text.encode("utf-8", "ignore"), mimetype="text/html").getData().decode("utf-8")
             except:
                 result = None
+       
             if result is None:
                 result = text
+            if len(result) > 200:
+                result = result[:195] + "..."
             return result
                                 
         items = []
@@ -117,12 +120,19 @@ class RSSTile(PersistentCoverTile):
             for item in islice(
                             ifilter(self.matches_whitelist, ifilter(self.blacklist_permits, feed.items)),
                             0, total_per_feed):
+                item = {"title": item['title'], "summary": item["summary"], "updated": item["updated"], "url": item["url"]}
+                print "FOUND " + item['title']
                 if transformer is not None:
                     item['title'] = convert(item['title'])
                     item['summary'] = convert(item['summary'])
                 items.append(item)
         
-        items = sorted(items, key=operator.itemgetter('updated'))
+        items = sorted(items, key=operator.itemgetter('updated'), reverse=True)
         items = items[0:total_slots]
+        print "RETURNING " + repr(items)
+        print 
+        print 
+        print 
+        print 
         return items
     

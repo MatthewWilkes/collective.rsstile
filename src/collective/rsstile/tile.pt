@@ -12,8 +12,7 @@
                             
     <tal:stories repeat="item view/get_items">
 
-        <div class="cover-richtext-tile tile-content">
-        
+        <tal:story on-error="string:">        
             <h4>
                 <a class="external-link" href="http://www.example.com"
                     tal:attributes="href item/url">
@@ -25,8 +24,7 @@
             </h4>
             <p tal:content="item/summary">More than 2.5 million people have now fled violence in Syria and are in desperate need of shelter</p>
             
-        </div>
-        
+        </tal:story>
     </tal:stories>
     
   </div>
